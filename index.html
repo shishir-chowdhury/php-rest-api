@@ -127,7 +127,7 @@
                                     "<td>"+ value.product_name +"</td>"+
                                     "<td>"+ value.product_price +"</td>"+
                                     "<td>"+ value.product_description +"</td>"+
-                                    "<td><a href='/php-rest-api/single-user.php?id="+value.id+"'><button class='view-btn' data-stu-id='"+value.id+"' >View</button></a><button class='edit-btn' data-stu-id='"+value.id+"' >Edit</button><button class='delete-btn' data-stu-id='"+value.id+"' >View</button>"+"</td>"+
+                                    "<td><a href='/php-rest-api/single-user.php?id="+value.id+"'><button class='view-btn' data-pro-id='"+value.id+"' >View</button></a><button class='edit-btn' data-pro-id='"+value.id+"' >Edit</button><button class='delete-btn' data-pro-id='"+value.id+"' >View</button>"+"</td>"+
                                 "</tr>")
                         })
                    }
@@ -181,7 +181,6 @@
         $("#save-button").on("click", function(e)
         {
             e.preventDefault();
-            console.log("click");
             var jsonObj = jsonData("#add-form");
             if(jsonObj == false)
             {
@@ -189,7 +188,6 @@
                 message("All Fields Are Required!!!!", false);
             } else 
             {
-                console.log("ajax");
                 $.ajax
                 ({
                     url: "http://localhost/php-rest-api/api-insert.php",
@@ -219,7 +217,6 @@
         {
             e.preventDefault();
             var jsonObj = jsonData("#edit-form");
-            console.log(jsonObj);
             if(jsonObj == false)
             {
                 
@@ -270,9 +267,9 @@
                 success: function(data)
                 {
                     $("#edit-id").val(data[0].id);
-                    $("#edit-name").val(data[0].name);
-                    $("#edit-age").val(data[0].age);
-                    $("#edit-city").val(data[0].city);
+                    $("#edit-name").val(data[0].product_name);
+                    $("#edit-price").val(data[0].product_price);
+                    $("#edit-description").val(data[0].product_description);
                 }
             });
         })

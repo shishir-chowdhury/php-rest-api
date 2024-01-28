@@ -83,7 +83,10 @@
 }
 
 #save-button,
-#edit-submit {
+#edit-submit,
+.review-btn,
+.all-products,
+#revw-submit {
     padding: 10px;
     background-color: aquamarine;
     border: 1px solid black;
@@ -185,10 +188,9 @@
 .active {
     background-color: lightseagreen !important;
 }
-
 .single-table{
         background-color: aquamarine;
-        width: 450px;
+        width: 461px;
         margin: auto;
         padding: 20px;
     }
@@ -197,3 +199,22 @@
      width: 70%;
      margin: auto;
     }
+
+.all-products{
+    margin: auto; 
+    display:block
+}
+
+div a {
+    text-decoration: none;
+}
+.review-btn{
+    display: block;
+    margin: auto;
+    width: 461px;
+    font-weight: bold;
+}
+.tr-modal{
+    margin-bottom: 10px;
+    padding: 10px;
+}
