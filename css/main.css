@@ -1,0 +1,199 @@
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+.page-header {
+    background-color: lightcoral;
+    
+}
+
+.page-header h1 {
+    text-align: center;
+    padding: 15px;
+}
+
+.search{
+    text-align: center;
+    padding: 15px;
+    font-size: 22px;
+    
+}
+
+.search input {
+    outline: none;
+    padding: 10px;
+    width: 25%;
+    border: 0;
+}
+
+#table {
+    margin: auto;
+}
+
+#add-form input {
+    outline: none;
+}
+.table-body {
+    background-color: aquamarine;
+    padding: 25px;
+   
+
+
+}
+
+#load-button {
+    padding: 15px;
+    border-radius: 20px;
+    border: 1px solid black;
+    background-color: aqua;
+}
+
+.table-head {
+    background-color: lightblue;
+}
+
+.table-head th {
+    padding: 10px;
+}
+
+.table-middle td {
+    padding: 10px;
+}
+
+.table-middle {
+    background-color: lightcyan;
+    text-align: center;
+}
+
+#pro-name,
+#pro-price,
+#pro-description,
+#review,
+#edit-name,
+#edit-price,
+#edit-description {
+    padding: 10px;
+    text-align: left;
+}
+
+#review{
+    width: 200px;
+}
+
+#save-button,
+#edit-submit {
+    padding: 10px;
+    background-color: aquamarine;
+    border: 1px solid black;
+}
+
+#error-message,
+#edit-error-message {
+    color: red;
+    padding: 10px;
+    background-color: lightpink;
+    display: none;
+    margin-top: 10px;
+}
+
+#success-message,
+#edit-success-message {
+    color: green;
+    padding: 10px;
+    background-color: #A3EBB1ee;
+    display: none;
+    margin-top: 10px;
+}
+
+.view-btn {
+    background-color: #0476D0;
+    border: 0px;
+    color: white;
+    padding: 5px 15px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delete-btn {
+    background-color: lightcoral;
+    border: 0px;
+    color: white;
+    padding: 5px 15px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-btn {
+    background-color: lightseagreen;
+    color: white;
+    border: 0px;
+    padding: 5px 15px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+#modal {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: none;
+}
+
+#modal-form {
+    background-color: #fff;
+    width: 45%;
+    height: 200px;
+    position: relative;
+    top: 16%;
+    left: 30%;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#close-btn {
+    background-color: red;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50px;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    cursor: pointer;
+}
+
+#pagination{
+    text-align: center;
+    padding: 25px;
+}
+
+#pagination a {
+    background-color: #0476D0;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.active {
+    background-color: lightseagreen !important;
+}
+
+.single-table{
+        background-color: aquamarine;
+        width: 450px;
+        margin: auto;
+        padding: 20px;
+    }
+    img {
+     display: block;
+     width: 70%;
+     margin: auto;
+    }

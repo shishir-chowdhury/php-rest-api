@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>PHP REST API</title>
+</head>
+<body>
+    <!-- Header -->
+    <div class="page-header"> 
+            <h1>PHP REST API</h1>
+            <div class="search">
+                Search:
+                <input id="search-input" type="text" autocomplete="off">
+            </div>
+    </div>
+
+    <!-- Input Field -->
+    <div class="table-body">
+     <table id="table" cellspacing="0">
+        <tr>
+            <td id="input-field">
+               <form id="add-form">
+                   Product Name: <input type="text" name="pro_name" id="pro-name">
+                   Price: <input type="number" name="pro_price" id="pro-price">
+                   Description: <input type="text" name="pro_description" id="pro-description">
+                   <input type="submit" id="save-button" value="save">
+               </form>
+               <div id="error-message"></div>
+               <div id="success-message"></div>
+            </td> 
+        </tr>
+     </table>
+     </div>
+
+     <!-- Modal Section -->
+    <div id="modal">
+        <div id="modal-form">
+            <h2 style="text-align:center">Edit Info</h2>
+            <table>
+                <form id="edit-form">
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+                            <input type="text" name="pro_id" id="edit-id" value="" hidden>
+                            <input type="text" name="pro_name" id="edit-name" value="">
+                        </td>
+                        <td>Price:</td>
+                        <td>
+                            <input type="text" name="pro_price" id="edit-price" value="" >
+                        </td>
+                        <td>Description:</td>
+                        <td>
+                            <input type="text" name="pro_description" id="edit-description" value="" >
+                        </td>
+                         <td>
+                            <input type="submit" id="edit-submit" value="Update">
+                        </td>
+                    </tr>
+                </form>
+                <div id="edit-error-message"></div>
+                <div id="edit-success-message"></div>
+            </table>
+            <div id="close-btn">
+                x
+            </div>
+        </div>
+    </div>
+
+    <!-- Dummy Table -->
+     <div >
+        <table id="table-data" width= "100%" border="1" cellspacing="0" cellpadding="10px" >
+                <thead>
+                    <tr class="table-head">
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th width="30%">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <!-- <tr class='table-middle'>
+                         <td>1</td>
+                        <td>Shishir</td>
+                        <td>34</td>
+                        <td>Pabna</td>
+                    </tr> -->
+                </tbody>
+        </table>
+    </div>
+
+     <!-- Pagination -->
+    <div id="pagination">
+    </div>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function()
+    {
+
+        //    Fetch all records
+        function loadTable () 
+        {
+            $("#table-data").html("");
+            // Get all the data through API
+            $.ajax
+            ({
+                url: "http://localhost/php-rest-api/api-fetch-all.php",
+                type: "GET",
+                success: function(data)
+                {
+                    
+                   if(data.status == false)
+                   {
+                        
+                   } else
+                   {
+                        $.each(data, function(key, value)
+                        {
+                            
+                            $("#table-data").append(
+                                "<tr class='table-middle'>"
+                                    +"<td>"+ value.id +"</td>"+
+                                    "<td>"+ value.product_name +"</td>"+
+                                    "<td>"+ value.product_price +"</td>"+
+                                    "<td>"+ value.product_description +"</td>"+
+                                    "<td><a href='/php-rest-api/single-user.php?id="+value.id+"'><button class='view-btn' data-stu-id='"+value.id+"' >View</button></a><button class='edit-btn' data-stu-id='"+value.id+"' >Edit</button><button class='delete-btn' data-stu-id='"+value.id+"' >View</button>"+"</td>"+
+                                "</tr>")
+                        })
+                   }
+                }
+            });
+        }
+        loadTable();
+
+        // Show success and error message
+        function message(message, status)
+        {
+            if(status == true)
+            {
+                $("#success-message").html(message).slideDown();
+                $("#error-message").slideUp();
+                setTimeout(() => {
+                    $("#success-message").slideUp()
+                }, 4000);
+            } else if (status == false)
+            {
+                $("#error-message").html(message).slideDown();
+                $("#success-message").slideUp();
+                setTimeout(() => {
+                    $("#error-message").slideUp()
+                }, 4000);
+            }
+        }
+
+        // Function for form data to JSON object
+        function jsonData(targetForm)
+        {
+            // Get all data from the input field as a array
+            var arr = $(targetForm).serializeArray();
+            
+            // set key and value on the object
+            var obj = {};
+            for(var a=0; a < arr.length; a++)
+            {
+                if(arr[a].value == "")
+                {
+                    return false;
+                }
+                obj[arr[a].name] = arr[a].value;
+            }
+            // Convert the object to JSON
+            var JSON_string = JSON.stringify(obj);
+            return JSON_string;
+        }
+
+        // Insert new record
+        $("#save-button").on("click", function(e)
+        {
+            e.preventDefault();
+            console.log("click");
+            var jsonObj = jsonData("#add-form");
+            if(jsonObj == false)
+            {
+                
+                message("All Fields Are Required!!!!", false);
+            } else 
+            {
+                console.log("ajax");
+                $.ajax
+                ({
+                    url: "http://localhost/php-rest-api/api-insert.php",
+                    type: "POST",
+                    data: jsonObj,
+                    success: function(data)
+                    {
+                        message(data.message, data.status);
+                        
+                        // Reset the form
+                        if(data.status == true)
+                        {
+                            loadTable();
+                            $("#add-form").trigger("reset");
+                        }
+
+                    }
+
+                });
+            }
+
+            
+        })
+
+        // Update a record
+        $("#edit-submit").on("click", function(e)
+        {
+            e.preventDefault();
+            var jsonObj = jsonData("#edit-form");
+            console.log(jsonObj);
+            if(jsonObj == false)
+            {
+                
+                message("All Fields Are Required!!!!", false);
+            } else 
+            {
+                $.ajax
+                ({
+                    url: "http://localhost/php-rest-api/api-update.php",
+                    type: "POST",
+                    data: jsonObj,
+                    success: function(data)
+                    {
+                        message(data.message, data.status);
+                        
+                        // Reset the form
+                        if(data.status == true)
+                        {
+                            $("#modal").hide();
+                            loadTable();
+                        }
+
+                    }
+
+                });
+            }
+
+            
+        })
+
+        // Show single record
+        $(document).on("click", ".edit-btn", function()
+        {
+            // Open modal
+            $("#modal").show();
+
+            // Get the id of record which have to show
+            var proId = $(this).data("pro-id");
+            var toObj = {pro_id : proId};
+            var toJSON = JSON.stringify(toObj);
+            
+            // Send the id through Ajax
+            $.ajax
+            ({
+                url: "http://localhost/php-rest-api/api-fetch-single.php",
+                type: "POST",
+                data: toJSON,
+                success: function(data)
+                {
+                    $("#edit-id").val(data[0].id);
+                    $("#edit-name").val(data[0].name);
+                    $("#edit-age").val(data[0].age);
+                    $("#edit-city").val(data[0].city);
+                }
+            });
+        })
+
+        //Hide Modal Box
+        $("#close-btn").on("click", function(){
+            $("#modal").hide();
+        });
+    
+    });
+   
+</script>
+</body>
+</html>
